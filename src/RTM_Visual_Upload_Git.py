@@ -4,13 +4,29 @@ from datetime import datetime
 import shutil
 import os
 import subprocess
+import glob 
 
 # 📅 오늘 날짜 문자열
 today = datetime.today().strftime("%y%m%d")
 file_name = f"{today}_RTM_Map_Visualization.html"
 
+# 🔍 RawData 디렉토리
+raw_dir = "/Users/pseongmin/Desktop/1.BMW/1.KPI_Report/03_RTM/rtm-map/RawData/20250413"
+pattern = os.path.join(raw_dir, "00_xy_filter_csv_output_*.csv")
+
+# 최신 CSV 파일 찾기
+csv_candidates = glob.glob(pattern)
+if not csv_candidates:
+    raise FileNotFoundError("❌ 해당 경로에 일치하는 CSV 파일이 없습니다!")
+
+# 수정시간 기준으로 가장 최신 파일 선택
+latest_csv = max(csv_candidates, key=os.path.getmtime)
+
+# ✅ 자동으로 최신 파일 경로 설정
+csv_path = latest_csv
+print(f"🆕 최신 CSV 파일 사용: {csv_path}")
+
 # 🔄 입력 CSV
-csv_path = "/Users/pseongmin/Desktop/1.BMW/1.KPI_Report/03_RTM/rtm-map/RawData/20250408/00_xy_filter_csv_output_1159.csv"
 score_csv = "/Users/pseongmin/Desktop/1.BMW/1.KPI_Report/03_RTM/rtm-map/src/2504_score.csv"
 
 
@@ -92,7 +108,7 @@ folium.Marker(
 
 
 # 📂 GitHub repo 로컬 경로
-repo_path = "/Users/pseongmin/Desktop/1.BMW/1.KPI_Report/03_RTM/rtm-map/Visualization_Data"
+repo_path = "/Users/pseongmin/Desktop/1.BMW/1.KPI_Report/03_RTM/rtm-map/Visualization_Data/"
 output_file_path = os.path.join(repo_path, file_name)
 
 # 📝 지도 저장
