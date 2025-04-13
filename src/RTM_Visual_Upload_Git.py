@@ -1,17 +1,28 @@
 import pandas as pd
 import folium
-from datetime import datetime
 import shutil
 import os
+from datetime import datetime
+
 import subprocess
 import glob 
+from pathlib import Path
+
 
 # 📅 오늘 날짜 문자열
 today = datetime.today().strftime("%y%m%d")
 file_name = f"{today}_RTM_Map_Visualization.html"
 
+
+# 경로 설정 
+current_dir = Path(__file__).resolve().parent #src 위치 
+project_root = current_dir.parent #프로젝트 루트 디렉(src의 상위)
+# day1 = datetime.datetime.now().strftime('%Y%m%d')  # 예: "20250223"
+day1 = datetime.now().strftime('%Y%m%d')
+
+
 # 🔍 RawData 디렉토리
-raw_dir = "/Users/pseongmin/Desktop/1.BMW/1.KPI_Report/03_RTM/rtm-map/RawData/20250413"
+raw_dir = project_root / 'Rawdata' / day1
 pattern = os.path.join(raw_dir, "00_xy_filter_csv_output_*.csv")
 
 # 최신 CSV 파일 찾기
@@ -27,7 +38,7 @@ csv_path = latest_csv
 print(f"🆕 최신 CSV 파일 사용: {csv_path}")
 
 # 🔄 입력 CSV
-score_csv = "/Users/pseongmin/Desktop/1.BMW/1.KPI_Report/03_RTM/rtm-map/src/2504_score.csv"
+score_csv = current_dir / '2504_score.csv'
 
 
 
@@ -108,7 +119,7 @@ folium.Marker(
 
 
 # 📂 GitHub repo 로컬 경로
-repo_path = "/Users/pseongmin/Desktop/1.BMW/1.KPI_Report/03_RTM/rtm-map/Visualization_Data/"
+repo_path = project_root / 'Visualization_Data'
 output_file_path = os.path.join(repo_path, file_name)
 
 # 📝 지도 저장

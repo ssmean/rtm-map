@@ -4,6 +4,7 @@ from botocore.exceptions import NoCredentialsError
 import pandas as pd
 import datetime
 import subprocess
+from pathlib import Path
 
 
 
@@ -12,6 +13,8 @@ import subprocess
 #     print("AWS SSO 로그인 성공 ✅")
 # except subprocess.CalledProcessError as e:
 #     print(f"AWS SSO 로그인 실패 ❌: {e}")
+
+    
 # --------------------
 # AWS & 시간 관련 설정
 # --------------------
@@ -24,9 +27,13 @@ now = datetime.datetime.now()
 start_time = (now - datetime.timedelta(minutes=30)).strftime('%H%M')  # 예: "0930"
 end_time = now.strftime('%H%M')  # 예: "1000"
 
+# 경로 설정 
+current_dir = Path(__file__).resolve().parent #src 위치 
+project_root = current_dir.parent #프로젝트 루트 디렉(src의 상위)
+
+
 source_prefix = f'res_data/BMW/BACKUP/rtm/{day1}/'
-# local_directory = f'/Users/pseongmin/Desktop/1.BMW/1.KPI_Report/03_RTM/histpy/{day1}/'
-local_directory = f'/Users/pseongmin/Desktop/1.BMW/1.KPI_Report/03_RTM/rtm-map/Rawdata/{day1}'
+local_directory = project_root / 'Rawdata' / day1
 
 # 최종 머지, CSV 등 경로
 output_file_path = os.path.join(local_directory, "merged_output.txt")
