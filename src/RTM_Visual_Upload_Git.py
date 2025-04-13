@@ -86,7 +86,8 @@ for idx, row in df.iterrows():
     📌공사ID: {row['SUDN_ST_ID']}<br>
     📍도로명: {row['SUDN_ST_ROAD']}<br>
     📝내용: {row['SUDN_ST_CONT']}<br>
-    🕒기간: {row['SUDN_ST_DTTM']} ~ {row['SUDN_ED_DTTM']}
+    🕒기간: {row['SUDN_ST_DTTM']} ~ {row['SUDN_ED_DTTM']}<br>
+    🕒Datatime: {row['BASE_DTTM']}
     """
 
     # 커스텀 아이콘 정의
@@ -125,6 +126,7 @@ output_file_path = os.path.join(repo_path, file_name)
 # 📝 지도 저장
 m.save(output_file_path)
 print(f"✅ 저장 완료 → {output_file_path}")
+print("---------------------------")
 
 # 🔁 Git add → commit → push
 try:
@@ -132,5 +134,6 @@ try:
     subprocess.run(["git", "commit", "-m", f"Add {file_name}"], cwd=repo_path, check=True)
     subprocess.run(["git", "push"], cwd=repo_path, check=True)
     print("🚀 GitHub 업로드 완료!")
+    print("---------------------------")
 except subprocess.CalledProcessError as e:
     print("❌ Git 오류 발생:", e)

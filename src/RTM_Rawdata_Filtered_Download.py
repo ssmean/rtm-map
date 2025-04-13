@@ -36,7 +36,7 @@ source_prefix = f'res_data/BMW/BACKUP/rtm/{day1}/'
 local_directory = project_root / 'Rawdata' / day1
 
 # 최종 머지, CSV 등 경로
-output_file_path = os.path.join(local_directory, "merged_output.txt")
+output_file_path = os.path.join(local_directory, "merged_output.txt") 
 csv_output_path = os.path.join(local_directory, "csv_output.csv")
 
 # 필터링된 CSV 파일 경로
@@ -100,7 +100,7 @@ def download_s3_directory_with_time_filter(bucket_name, source_prefix, local_dir
                             os.makedirs(os.path.dirname(local_file_path), exist_ok=True)
                             print(f"Downloading {file_key} → {local_file_path}...")
                             s3.download_file(bucket_name, file_key, local_file_path)
-        
+        print("---------------------------")
         print("Filtered download complete!")
     
     except NoCredentialsError:
@@ -138,11 +138,15 @@ def merge_txt_files(directory, output_filename):
                 lines = file.readlines()[1:]  # 첫 줄(헤더) 제외
                 merged_content += "".join(lines)
     
+            # ✅ 병합 후 삭제
+            os.remove(file_path)
+
     with open(output_filename, 'w', encoding='utf-8') as output_file:
         output_file.write(first_line)
         output_file.write(merged_content)
     
-    print(f"모든 txt 파일이 {output_filename}에 성공적으로 병합되었습니다.")
+    print("---------------------------")
+    print(f"모든 txt 파일이 {output_filename}에 성공적으로 병합 및 삭제되었습니다.")
 
 # --------------------------
 # 3. TXT → CSV 변환 함수
@@ -186,6 +190,7 @@ def filter_by_coordinates(input_path, output_path, x_min, x_max, y_min, y_max):
         filtered_df = df[condition_x & condition_y]
         filtered_df.to_csv(output_path, index=False, encoding="utf-8-sig")
         print(f"좌표 조건 필터링 후 CSV 파일이 저장되었습니다: {output_path}")
+        print("---------------------------")
     except Exception as e:
         print(f"파일 처리 중 오류가 발생했습니다: {e}")
 
