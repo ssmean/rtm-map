@@ -7,11 +7,11 @@ import subprocess
 
 
 
-try:
-    subprocess.run(["aws", "sso", "login", "--profile", "tmap-sv"], check=True)
-    print("AWS SSO 로그인 성공 ✅")
-except subprocess.CalledProcessError as e:
-    print(f"AWS SSO 로그인 실패 ❌: {e}")
+# try:
+#     subprocess.run(["aws", "sso", "login", "--profile", "tmap-sv"], check=True)
+#     print("AWS SSO 로그인 성공 ✅")
+# except subprocess.CalledProcessError as e:
+#     print(f"AWS SSO 로그인 실패 ❌: {e}")
 # --------------------
 # AWS & 시간 관련 설정
 # --------------------
