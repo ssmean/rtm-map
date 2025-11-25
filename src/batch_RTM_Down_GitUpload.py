@@ -1,19 +1,23 @@
+# %%
 import time
 import subprocess
 import platform
 import sys
 from pathlib import Path
 
-# ✅ 현재 운영체제 확인 (Windows, Darwin(macOS), Linux)
+# ✅ 현재 OS 확인
 current_os = platform.system()
-
-# ✅ python 실행 명령어 결정
 python_cmd = "python3" if current_os != "Windows" else "python"
 
-# ✅ 실행 경로 기준 스크립트 위치 설정 (상대경로 사용 가능)
-project_root = Path(__file__).resolve().parent
-script1 = project_root / "RTM_Rawdata_Filtered_Download.py"
-script2 = project_root / "RTM_Visual_Upload_Git.py"
+# ✅ 경로 설정
+current_file = Path(__file__).resolve()          # batch_RTM_Down_GitUpload.py
+src_dir = current_file.parent                    # src 디렉토리
+func_dir = src_dir / "func"                       # src/func 디렉토리
+
+# ✅ 실행할 스크립트 경로
+script1 = func_dir / "RTM_Rawdata_Filtered_Download.py"
+script2 = func_dir / "RTM_Visual_Upload_Git.py"
+
 
 # ✅ AWS SSO 로그인
 try:
